@@ -1,8 +1,8 @@
 # Getting Started with Create React App
 
-Runing Reach = npm start
-Runing Backend (Laravel) = cd backend (php artisan serve)
-Migrate and seed = cd backend (php artisan migrate --seed)
+### Runing React = npm start
+### Runing Backend (Laravel) = cd backend (php artisan serve)
+### Migrate and seed = cd backend (php artisan migrate --seed)
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
