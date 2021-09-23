@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 const SignInComponent = () => {
     return (
-        <Nav>
+        <>
             <LinkContainer to='/login'>
                 <Nav.Link>
                     <span> Login </span>
@@ -15,7 +15,7 @@ const SignInComponent = () => {
                     <span> Register </span>
                 </Nav.Link>
             </LinkContainer>
-        </Nav>
+        </>
     );
 }
 

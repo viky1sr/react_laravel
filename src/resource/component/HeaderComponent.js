@@ -1,13 +1,17 @@
 import React, {useEffect} from 'react';
 import { Navbar, Nav, Container,NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap';
+import { useSelector } from 'react-redux';
 import Logo from '../../logo.svg';
 import SignInComponent from '../component/partials/SignInComponent';
 import DropDownComponent from '../component/partials/DropDownComponent';
 
 const HeaderComponent = () => {
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin;
+    const login = userInfo;
 
-    const login = '/login';
+    console.log(userInfo);
 
     return(
         <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
@@ -25,30 +29,18 @@ const HeaderComponent = () => {
                         <LinkContainer  to='/'>
                             <Nav.Link >Home</Nav.Link>
                         </LinkContainer>
-                    { login === '/login' ? (
-                        <LinkContainer to='users'>
-                            <Nav.Link >User</Nav.Link>
-                        </LinkContainer>
-                    ) : (  <LinkContainer to='login'>
+                    <LinkContainer to={ login != null ? '/users' : '/login'}>
                         <Nav.Link >User</Nav.Link>
                     </LinkContainer>
-                    )}
 
-                        <LinkContainer  to='/mahasiswas'>
+                        <LinkContainer to={ login != null ? '/mahasiswas' : '/login'}>
                             <Nav.Link >Mahasiswa</Nav.Link>
                         </LinkContainer>
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
-                        <LinkContainer to='/login'>
-                            <Nav.Link>
-                                <span> Login </span>
-                            </Nav.Link>
-                        </LinkContainer>
-                        <LinkContainer to='/register'>
-                            <Nav.Link>
-                                <span> Register </span>
-                            </Nav.Link>
-                        </LinkContainer>
+                    {login != null ? (<DropDownComponent />) : (
+                      <SignInComponent />
+                    )}
                 </Navbar.Collapse>
             </Container>
         </Navbar>

@@ -40,7 +40,7 @@ export const login = ( email, password) => async (dispatch) => {
         }
 
         const { data } = await axios.post(
-            `/api/v1/users/login`,
+            `/api/v1/user/login`,
             { email, password },
             config
         );
@@ -54,8 +54,8 @@ export const login = ( email, password) => async (dispatch) => {
     } catch (e) {
         dispatch({
             type: USER_LOGIN_FAIL,
-            payload: e.response && e.response.data.message
-                ? e.response.data.message
+            payload: e.response && e.response.data.messages
+                ? e.response.data.messages
                 : e.message
         });
     }
@@ -83,7 +83,7 @@ export const register = ( name, email, password, confirm_password) => async (dis
         }
 
         const { data } = await axios.post(
-            `/api/v1/user`,
+            `/api/v1/user/register`,
             { name, email, password, confirm_password},
             config
         );

@@ -17,10 +17,13 @@ const Login = ({ history, location}) => {
     const userLogin = useSelector(state => state.userLogin);
     const { loading, error, userInfo } = userLogin
 
+    const redirect = location.search ? location.search.split('=')[1] : '/' ;
+
     useEffect(() => {
-        // console.log('test');
-        // console.log(userInfo.token);
-    },[history, userInfo, dispatch]);
+        if(userInfo) {
+            history.push(redirect)
+        }
+    },[history, userInfo, redirect]);
 
     const submitHandler = (e) => {
         e.preventDefault()
