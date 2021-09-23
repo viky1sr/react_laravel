@@ -14,7 +14,7 @@ const Register = ({ history, location }) => {
     const [ name, setName ] = useState('');
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
-    const [ confirm_password, setConfirmPassword ] = useState('');
+    const [ password_confirmation, setConfirmPassword ] = useState('');
     const [ message ] = useState(null);
 
     const dispatch = useDispatch();
@@ -24,8 +24,19 @@ const Register = ({ history, location }) => {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(register(name, email, password, confirm_password))
+        dispatch(register(name, email, password, password_confirmation))
     }
+
+    const redirect = location.search ? location.search.split('=')[1] : '/' ;
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if(userInfo) {
+                history.push(redirect)
+            }
+        }, 2000);
+        return () => clearTimeout(timer);
+    },[history, userInfo, redirect]);
 
     if(successRegister === true ) {
         toast('Register Successfully', {
@@ -72,20 +83,31 @@ const Register = ({ history, location }) => {
                                     <div className="form-group">
                                         <label htmlFor="name"><i
                                             className="zmdi zmdi-account material-icons-name"></i></label>
-                                        <input type="text" name="name" id="name" placeholder="Your Name" required={true}/>
+                                        <input type="text"  placeholder="Your Name" required={true}
+                                               value={name}
+                                               onChange={(e) => setName(e.target.value)}
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="email"><i className="zmdi zmdi-email"></i></label>
-                                        <input type="email" name="email" id="email" placeholder="Your Email" required={true}/>
+                                        <input type="email" placeholder="Your Email" required={true}
+                                               value={email}
+                                               onChange={(e) => setEmail(e.target.value)}
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="pass"><i className="zmdi zmdi-lock"></i></label>
-                                        <input type="password" name="pass" id="pass" placeholder="Password" required={true}/>
+                                        <input type="password" placeholder="Password" required={true}
+                                               value={password}
+                                               onChange={(e) => setPassword(e.target.value)}
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="re-pass"><i className="zmdi zmdi-lock-outline"></i></label>
-                                        <input type="password" name="re_pass" id="re_pass"
-                                               placeholder="Repeat your password" required={true}/>
+                                        <input type="password" placeholder="Repeat your password" required={true}
+                                               value={password_confirmation}
+                                               onChange={(e) => setConfirmPassword(e.target.value)}
+                                        />
                                     </div>
                                     <div className="form-group">
                                         <input type="checkbox" name="agree-term" id="agree-term" className="agree-term"/>
@@ -109,20 +131,20 @@ const Register = ({ history, location }) => {
                     </div>
                 </section>
             </div>
-            {/*<div className="login-background">*/}
-            {/*    <img*/}
-            {/*        alt="bg-kanan"*/}
-            {/*        src={bgAtasKanan}*/}
-            {/*        className="kanan"*/}
-            {/*        loading="auto"*/}
-            {/*    />*/}
-            {/*    <img*/}
-            {/*        alt="bg-kiri"*/}
-            {/*        src={bgBawahKiri}*/}
-            {/*        className="kiri"*/}
-            {/*        loading="auto"*/}
-            {/*    />*/}
-            {/*</div>*/}
+            <div className="login-background">
+                <img
+                    alt="bg-kanan"
+                    src={bgAtasKanan}
+                    className="kanan"
+                    loading="auto"
+                />
+                <img
+                    alt="bg-kiri"
+                    src={bgBawahKiri}
+                    className="kiri"
+                    loading="auto"
+                />
+            </div>
         </div>
     )
 
