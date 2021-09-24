@@ -18,15 +18,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('v1/user')->group(function () {
-    Route::post('register', 'Api\AuthController@register');
+
+Route::prefix('/v1/user')->group(function () {
+    Route::post('register', 'Api\UserApiController@register');
     Route::post('login', 'Api\AuthController@login');
     Route::post('logout', 'Api\AuthController@logout');
 });
 
 Route::group([
-    'prefix' => 'v1'
+    'middleware' => 'jwt.verify',
+    'prefix' => '/v1'
 ], function () {
-    Route::get('users', 'Api\UserController@users');
-    Route::get('user/{id}','Api\UserController@user');
+    Route::get('/users', 'Api\UserApiController@users');
+    Route::get('/user/{id}','Api\UserApiController@user');
+    Route::delete('/user/{id}','Api\UserApiController@destroy');
+    Route::post('/user/update/{id}', 'Api\UserApiController@update');
 });

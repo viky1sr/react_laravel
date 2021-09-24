@@ -6,6 +6,7 @@ import bgBawahKiri from '../../../assets/img/login-bg-bawah-kiri_2.svg';
 import sigIn from '../../../assets/img/signin-image.jpg';
 import MessageBoxComponent from '../MessageBoxComponent';
 import { login } from '../../actions/UserActions';
+import {toast, ToastContainer} from "react-toastify";
 
 const Login = ({ history, location}) => {
 
@@ -15,13 +16,27 @@ const Login = ({ history, location}) => {
     const [ password, setPassword ] = useState('');
 
     const userLogin = useSelector(state => state.userLogin);
-    const { loading, error, userInfo } = userLogin
+    const { loading, error, userInfo, success: successLogin } = userLogin
 
     const redirect = location.search ? location.search.split('=')[1] : '/' ;
 
     useEffect(() => {
         if(userInfo) {
-            history.push(redirect)
+            if(successLogin === true) {
+                toast('Success login.', {
+                    position: "top-right",
+                    type: 'success',
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+            setTimeout(function() {
+                history.push(redirect)
+            },2000)
         }
     },[history, userInfo, redirect]);
 
@@ -33,6 +48,18 @@ const Login = ({ history, location}) => {
 
     return (
         <div className="centering absolute" style={{width: '100vw'}}>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+            />
+
             <div
                 className={
                     'box-login' +

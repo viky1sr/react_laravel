@@ -21,6 +21,7 @@ const initialState = {
 const reducer = combineReducers({
     userLogin: UserLoginReducers,
     userRegister: UserRegisterReducers,
+    usersList: UserListReducers,
 });
 
 

@@ -1,10 +1,12 @@
 import React from 'react';
-import {Card} from "react-bootstrap";
+import {Navbar} from "react-bootstrap";
 
 const MahasiswaPage = () => {
     return (
-        <Card body>Mahasiswa.</Card>
-    );
+        <>
+            <Navbar.Brand>Title</Navbar.Brand>
+        </>
+        );
 }
 
 export default MahasiswaPage;

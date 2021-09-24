@@ -126,7 +126,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
             }
         }
 
-        const { data } = await axios.get(`/api/v1/users/${id}`, config );
+        const { data } = await axios.get(`/api/v1/user/${id}`, config );
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -222,7 +222,7 @@ export const listUsers = () => async (dispatch, getState) => {
     }
 }
 
-export const delettUser = (id) => async (dispatch, getState) => {
+export const deletUser = (id) => async (dispatch, getState) => {
     try {
         dispatch({
             type: USER_DELETE_REQUEST
@@ -279,9 +279,9 @@ export const updateUserAdmin = (user) => async (dispatch, getState) => {
         dispatch({ type: USER_DETAILS_RESET })
     } catch (error) {
         const message =
-            error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message
+            error.response && error.response.data.messages
+                ? error.response.data.messages
+                : error.messages
         if (message === 'Not authorized, token failed') {
             dispatch(logout())
         }

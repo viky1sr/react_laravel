@@ -12,9 +12,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use App\Services\UserService;
 
 class AuthController extends Controller
 {
+
     public function login(Request $request)
     {
         $credential = $request->only('email','password');
@@ -33,48 +35,8 @@ class AuthController extends Controller
         return response()->json(compact('user','token'));
     }
 
-    public function register(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-
-        if($validator->fails()){
-            return response()->json([
-                'status' => false,
-                'messages' => $validator->errors()->first()
-            ], 422);
-        }
-
-        $user = User::firstOrCreate([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => Hash::make($request->get('password')),
-        ]);
-
-        $user->assignRole('member');
-
-        if($user){
-            $year_now = Carbon::now()->format('Y');
-            $created_user = Carbon::parse($user->created_at)->format('Ymd');
-            $updateUser = User::find($user->id);
-            $updateUser->updateOrFail([
-                'nim' => $created_user.$year_now.$user->id
-            ]);
-            $user = $updateUser;
-        }
-
-        $token = JWTAuth::fromUser($user);
-
-        return response()->json(compact('user','token'),201);
-    }
-
     public function logout( Request $request ) {
-
         $token = $request->header( 'Authorization' );
-
         try {
             JWTAuth::parseToken()->invalidate( $token );
 
@@ -109,7 +71,6 @@ class AuthController extends Controller
             if (! $user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
             }
-
         } catch (TokenExpiredException $e) {
 
             return response()->json(['token_expired'], $e->getStatusCode());
@@ -123,7 +84,6 @@ class AuthController extends Controller
             return response()->json(['token_absent'], $e->getStatusCode());
 
         }
-
         return response()->json(compact('user'));
     }
 }
