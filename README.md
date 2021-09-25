@@ -1,9 +1,15 @@
 # Getting Started with Create React App
 
-### Runing React = npm start
-### Runing Backend (Laravel) = cd backend (php artisan serve)
-### Migrate and seed = cd backend (php artisan migrate --seed)
+### Runing React:
+- npm start
+### Runing Backend (Laravel):
+- cd backend (php artisan serve)
+### Migrate and seed: 
+- cd backend (php artisan migrate --seed)
 
+## User Demo :
+- email: admin@admin.com , password: qweasd123
+- email: member@member.com , password: qweasd123
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
