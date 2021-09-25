@@ -180,9 +180,9 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 
     } catch (e) {
         const  message =
-            e.response && e.response.data.message
-                ? e.response.data.message
-                : e.message
+            e.response && e.response.data.messages
+                ? e.response.data.messages
+                : e.messages
 
         if (message === 'Not authorized, token failed') {
             dispatch(logout())
