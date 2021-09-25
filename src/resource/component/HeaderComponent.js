@@ -11,8 +11,6 @@ const HeaderComponent = () => {
     const { userInfo } = userLogin;
     const login = userInfo;
 
-    console.log(userInfo);
-
     return(
         <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
             <Container>
@@ -29,10 +27,6 @@ const HeaderComponent = () => {
                         <LinkContainer  to='/'>
                             <Nav.Link >Home</Nav.Link>
                         </LinkContainer>
-                    <LinkContainer to={ login != null ? '/users' : '/login'}>
-                        <Nav.Link >User</Nav.Link>
-                    </LinkContainer>
-
                         <LinkContainer to={ login != null ? '/mahasiswas' : '/login'}>
                             <Nav.Link >Mahasiswa</Nav.Link>
                         </LinkContainer>

@@ -1,3 +1,5 @@
+import { logout } from "../actions/UserActions";
+
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST'
 export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS'
 export const USER_LOGIN_FAIL = 'USER_LOGIN_FAIL'
@@ -31,3 +33,20 @@ export const USER_UPDATE_ADMIN_SUCCESS = 'USER_UPDATE_ADMIN_SUCCESS'
 export const USER_UPDATE_ADMIN_FAIL = 'USER_UPDATE_ADMIN_FAIL'
 export const USER_UPDATE_ADMIN_RESET = 'USER_UPDATE_ADMIN_RESET'
 
+export function saveTokenInLocalStorage(tokenDetails) {
+    localStorage.setItem('userInfo', JSON.stringify(tokenDetails));
+}
+
+export function runLogoutTimer(dispatch, timer) {
+    let time = 5 * 60 * 1000;
+    setTimeout(() => {
+       dispatch(logout())
+   },900000);
+}
+
+export function nullLogoutTimer(dispatch, timer) {
+    let time = 5 * 60 * 1000;
+    setTimeout(() => {
+        dispatch(logout())
+    },1000);
+}

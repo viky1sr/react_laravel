@@ -38,6 +38,7 @@ Class UserRepository implements UserRepositoryInterface {
     public function update(array $inputs, $id){
         $user = $this->model->find($id);
         $user->update($inputs);
+
         return $user;
     }
 

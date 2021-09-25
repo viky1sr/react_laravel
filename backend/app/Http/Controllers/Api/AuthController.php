@@ -22,17 +22,24 @@ class AuthController extends Controller
         $credential = $request->only('email','password');
         try {
             if (! $token = JWTAuth::attempt($credential)) {
-                return response()->json(['error' => 'invalid_credentials'], 400);
+                return response()->json([
+                    'status' => false,
+                    'messages' => 'Password dan email tidak sama.',
+                ],422);
             }
         } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            return response()->json([
+                'status' => 'false',
+                'messages' => 'could_not_create_token'
+            ], 500);
         }
 
         if($token) {
-            $user = \Auth::user();;
+            $user = \Auth::user();
+            $exp = JWTAuth::setToken($token)->getPayload()->get('exp');
         }
 
-        return response()->json(compact('user','token'));
+        return response()->json(compact('user','token','exp'));
     }
 
     public function logout( Request $request ) {

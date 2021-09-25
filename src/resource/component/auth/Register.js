@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import bgAtasKanan from '../../../assets/img/login-bg-atas-kanan_2.svg';
-import bgBawahKiri from '../../../assets/img/login-bg-bawah-kiri_2.svg';
-import singUp from '../../../assets/img/signup-image.jpg';
+import { Form, Button, Row, Col} from 'react-bootstrap';
 import MessageBoxComponent from '../MessageBoxComponent';
 import { register } from '../../actions/UserActions';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import FormContainerComponent from '../FormContainerComponent';
+import LoadingBoxComponent from '../LoadingBoxComponent';
 
 const Register = ({ history, location }) => {
 
@@ -52,7 +52,7 @@ const Register = ({ history, location }) => {
     }
 
     return (
-        <div className=" centering absolute" style={{width: '100vw'}}>
+        <FormContainerComponent>
             <ToastContainer
                 position="top-right"
                 autoClose={3000}
@@ -64,88 +64,64 @@ const Register = ({ history, location }) => {
                 draggable
                 pauseOnHover={false}
             />
+            <h1>Sign Up</h1>
+            {message && <MessageBoxComponent variant='danger'>{message}</MessageBoxComponent>}
+            {error && <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent>}
+            {loading && <LoadingBoxComponent />}
+            <Form onSubmit={submitHandler}>
+                <Form.Group controlId='name' className="mb-3">
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control
+                        type='name'
+                        placeholder='Enter name'
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </Form.Group>
 
-            <div
-                className={
-                    'box-login' +
-                    (error ? ' error' : ' ') +
-                    (loading ? ' getar' : ' ')
-                }
-            >
-                <section className="signup">
-                    <div className="container">
-                        <div className="signup-content">
-                            <div className="signup-form">
-                                <h2 className="form-title">Sign up</h2>
-                                {message && <MessageBoxComponent variant='danger'>{message}</MessageBoxComponent>}
-                                {error && <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent>}
-                                <form onSubmit={submitHandler}>
-                                    <div className="form-group">
-                                        <label htmlFor="name"><i
-                                            className="zmdi zmdi-account material-icons-name"></i></label>
-                                        <input type="text"  placeholder="Your Name" required={true}
-                                               value={name}
-                                               onChange={(e) => setName(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="email"><i className="zmdi zmdi-email"></i></label>
-                                        <input type="email" placeholder="Your Email" required={true}
-                                               value={email}
-                                               onChange={(e) => setEmail(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="pass"><i className="zmdi zmdi-lock"></i></label>
-                                        <input type="password" placeholder="Password" required={true}
-                                               value={password}
-                                               onChange={(e) => setPassword(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="re-pass"><i className="zmdi zmdi-lock-outline"></i></label>
-                                        <input type="password" placeholder="Repeat your password" required={true}
-                                               value={password_confirmation}
-                                               onChange={(e) => setConfirmPassword(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" name="agree-term" id="agree-term" className="agree-term"/>
-                                        <label htmlFor="agree-term" className="label-agree-term"><span><span></span></span>I
-                                            agree all statements in <a href="#" className="term-service">Terms of
-                                                service</a></label>
-                                    </div>
-                                    <div className="form-group form-button">
-                                        <input type="submit" name="signup" id="signup" className="form-submit"
-                                               value="Register"/>
-                                    </div>
-                                </form>
-                            </div>
-                            <div className="signup-image">
-                                <figure><img src={singUp} alt="sing up image" /></figure>
-                                <Link className="signup-image-link" to={'/login'}>
-                                    I am already member
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <div className="login-background">
-                <img
-                    alt="bg-kanan"
-                    src={bgAtasKanan}
-                    className="kanan"
-                    loading="auto"
-                />
-                <img
-                    alt="bg-kiri"
-                    src={bgBawahKiri}
-                    className="kiri"
-                    loading="auto"
-                />
-            </div>
-        </div>
+                <Form.Group controlId='email' className="mb-3">
+                    <Form.Label>Email Address</Form.Label>
+                    <Form.Control
+                        type='email'
+                        placeholder='Enter email'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId='password'>
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        type='password'
+                        placeholder='Enter password'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </Form.Group>
+
+                <Form.Group controlId='confirmPassword' className="mb-3">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control
+                        type='password'
+                        placeholder='Confirm password'
+                        value={password_confirmation}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                </Form.Group>
+
+                <Button type='submit'  variant='primary'>
+                    Register
+                </Button>
+            </Form>
+            <Row className="py-3">
+                <Col>
+                    Have an Account ? {''}
+                    <Link to={redirect ? `/login?redirect=${redirect}` : '/register'}>
+                        Login
+                    </Link>
+                </Col>
+            </Row>
+        </FormContainerComponent>
     )
 
 }

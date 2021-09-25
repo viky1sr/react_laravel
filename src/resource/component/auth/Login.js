@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import bgAtasKanan from '../../../assets/img/login-bg-atas-kanan_2.svg';
-import bgBawahKiri from '../../../assets/img/login-bg-bawah-kiri_2.svg';
-import sigIn from '../../../assets/img/signin-image.jpg';
+import { Form, Button, Row, Col} from 'react-bootstrap';
 import MessageBoxComponent from '../MessageBoxComponent';
 import { login } from '../../actions/UserActions';
 import {toast, ToastContainer} from "react-toastify";
+import FormContainerComponent from '../FormContainerComponent';
+import LoadingBoxComponent from '../LoadingBoxComponent';
 
 const Login = ({ history, location}) => {
 
@@ -47,7 +47,7 @@ const Login = ({ history, location}) => {
     }
 
     return (
-        <div className="centering absolute" style={{width: '100vw'}}>
+        <FormContainerComponent>
             <ToastContainer
                 position="top-right"
                 autoClose={3000}
@@ -60,74 +60,36 @@ const Login = ({ history, location}) => {
                 pauseOnHover={false}
             />
 
-            <div
-                className={
-                    'box-login' +
-                    (error ? ' error' : ' ') +
-                    (loading ? ' getar' : ' ')
-                }
-            >
-                <section className="sign-in">
-                    <div className="container">
-                        <div className="signin-content">
-                            <div className="signin-image">
-                                <figure><img src={sigIn} alt="sing up image" /></figure>
-                                <Link className="signup-image-link" to={'/register'}>
-                                    Create an account
-                                </Link>
+            <h1>Sign In</h1>
+            {error && <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent>}
+            {loading && <LoadingBoxComponent />}
+            <Form onSubmit={submitHandler} >
+                <Form.Group controlId='email' className="mb-3">
+                    <Form.Label>Email Address</Form.Label>
+                    <Form.Control type='email' placeholder='enter your email' valaue={email}
+                                  onChange={(e) => setEmail(e.target.value)}
+                    />
+                </Form.Group>
 
-                            </div>
+                <Form.Group controlId='password' className="mb-3">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type='password' placeholder='enter your password' valaue={password}
+                                  onChange={(e) => setPassword(e.target.value)}
+                    />
+                </Form.Group>
 
-                            <div className="signin-form">
-                                <h2 className="form-title">Sign up</h2>
-                                {error && <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent>}
-                                <form onSubmit={submitHandler} >
-                                    <div className="form-group">
-                                        <label htmlFor="your_email"><i className="zmdi zmdi-account material-icons-name"></i></label>
-                                        <input type="email"  placeholder="Your Email" required={true}
-                                               valaue={email}
-                                               onChange={(e) => setEmail(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label htmlFor="your_pass"><i className="zmdi zmdi-lock"></i></label>
-                                        <input type="password" placeholder="Password" required={true}
-                                               valaue={password}
-                                               onChange={(e) => setPassword(e.target.value)}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <input type="checkbox" name="remember-me" id="remember-me" className="agree-term"/>
-                                        <label htmlFor="remember-me" className="label-agree-term"><span><span></span></span>Remember
-                                            me</label>
-                                    </div>
-                                    <div className="form-group form-button">
-                                        <input type="submit" name="signin" id="signin" className="form-submit" value="Log in"/>
-                                    </div>
-                                </form>
-                                <div className="social-login">
-                                    <span className="social-label">Or login with</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <div className="login-background">
-                <img
-                    alt="bg-kanan"
-                    src={bgAtasKanan}
-                    className="kanan"
-                    loading="auto"
-                />
-                <img
-                    alt="bg-kiri"
-                    src={bgBawahKiri}
-                    className="kiri"
-                    loading="auto"
-                />
-            </div>
-        </div>
+                <Button type='submit' variant='primary'>
+                    Sign in
+                </Button>
+            </Form>
+
+            <Row className="py-3">
+                <Col>
+                    New Customer ? <Link to={redirect ? `/register?redirect=${redirect}` : '/register'
+                }>Register</Link>
+                </Col>
+            </Row>
+        </FormContainerComponent>
     );
 }
 

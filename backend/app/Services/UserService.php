@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
 use Carbon\Carbon;
@@ -19,7 +20,7 @@ Class UserService {
     * Get Data Users from Repository
     * */
     public function getAll(){
-        $users = $this->userRepo->getAll();
+        $users = UserResource::collection($this->userRepo->getAll());
         return $users;
     }
 
@@ -46,11 +47,11 @@ Class UserService {
     * Update Data User by {id} from Model User
     * */
     public function update(array $inputs, $id) {
-        $user = $this->find($id);
+        $user = $this->find($inputs['id']);
         $user['name'] = $inputs['name'];
         $user['email'] = $inputs['email'];
         $user['nim'] = $inputs['nim'];
-        $user['password'] = \Hash::make($inputs['password']);
+//        $user['password'] = \Hash::make($inputs['password']);
 
         return $user->save();
     }

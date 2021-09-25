@@ -21,7 +21,7 @@ const DropDownComponent = () => {
 
     return (
         <NavDropdown title={userName()} id='username'>
-            <LinkContainer  to='/profile'>
+            <LinkContainer  to={`/mahasiswa/${userInfo.user.id}/profile`}>
                 <NavDropdown.Item > Profile </NavDropdown.Item>
             </LinkContainer>
             <NavDropdown.Item onClick={logoutHandler}>

@@ -20,10 +20,9 @@ class UserApiController extends Controller
         $this->userService = $userService;
     }
 
-    public function users(){
+    public function users(Request $request){
         $users = $this->userService->getAll();
-//        dd($users);
-        return UserResource::collection($users);
+        return response()->json($users);
     }
 
     public function user($id){
@@ -55,16 +54,15 @@ class UserApiController extends Controller
     }
 
     public function update(Request $request, $id){
-        $validated= userValidation($request->all());
+        $validated= userUpdateValidation($request->all());
         if($validated->fails()){
             return response()->json([
                 'status' => false,
                 'messages' => $validated->errors()->first()
             ], 422);
         } else {
-            if($user = $this->userService->update($request->except('_token','submit'), $id)){
-                $token = JWTAuth::fromUser($user);
-                return response()->json(compact('user','token'),201);
+            if($user = $this->userService->update($request->except('_token','submit'), $request->id)){
+                return response()->json(compact('user'),201);
             }
         }
     }

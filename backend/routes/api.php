@@ -32,5 +32,5 @@ Route::group([
     Route::get('/users', 'Api\UserApiController@users');
     Route::get('/user/{id}','Api\UserApiController@user');
     Route::delete('/user/{id}','Api\UserApiController@destroy');
-    Route::post('/user/update/{id}', 'Api\UserApiController@update');
+    Route::put('/user/update/{id}', 'Api\UserApiController@update');
 });
